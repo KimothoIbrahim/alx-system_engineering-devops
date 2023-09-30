@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Displays a list of currently running processes with the bash keyword.
+
+ps -aux | grep bash

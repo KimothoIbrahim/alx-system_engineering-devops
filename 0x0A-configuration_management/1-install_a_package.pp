@@ -3,7 +3,6 @@
 #install pip3
 package{ 'python3-pip':
   ensure  => 'installed',
-  require => Exec['apt-get update']
 }
 
 #using pip3 install flask

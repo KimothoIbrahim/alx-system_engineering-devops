@@ -1,9 +1,5 @@
 #installer of flask 2.1.0
 
-exec {'apt-get update':
-  command => '/usr/bin/apt-get update'
-}
-
 #install pip3
 package{ 'python3-pip':
   ensure  => 'installed',

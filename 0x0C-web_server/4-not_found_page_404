@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+#redirecting
+
+apt-get -y update
+apt-get -y install nginx
+ufw allow "Nginx HTTP"
+echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /var/www/html/404.html
+nginx_conf="/etc/nginx/sites-available/default"
+
+if [ -f "$nginx_conf" ]; then
+	sed -i '/server {/a \
+	location /redirect_me { \
+		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4; \
+	}' "$nginx_conf"
+	sed -i '/server {/a \
+	error_page 404 /404.html; \
+	location = /404.html { \
+	root var/www/html; \
+	internal; \
+	}' "$nginx_conf"
+
+	nginx -t
+	service nginx restart
+	echo "success"
+else
+	echo "no Nginx default file"
+fi

@@ -17,8 +17,6 @@ if __name__ == "__main__":
     fullList = r.json()
     csv_file = f'{userid}.csv'
 
-    print(fullList[0])
-
     with open(csv_file, 'w', newline='') as csvW:
         csv_writer = csv.writer(csvW, quoting=csv.QUOTE_ALL)
 

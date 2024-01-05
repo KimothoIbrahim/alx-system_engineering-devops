@@ -19,7 +19,7 @@ if __name__ == "__main__":
 
     print(
         f'Employee {userDetails.get("name")} is \
-        done with tasks({len(newList)}/{len(fullList)}): ')
+done with tasks({len(newList)}/{len(fullList)}): ')
 
     for item in newList:
         print(f'\t {item.get("title")}')

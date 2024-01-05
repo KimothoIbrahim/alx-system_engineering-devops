@@ -16,5 +16,7 @@ if __name__ == "__main__":
     fullList = r.json()
     json_file = f'{userid}.json'
 
+    newList = [{'task': task.get('title'), 'completed': task.get('completed'), 'username': userDetails.get('username')} for task in fullList]
+
     with open(json_file, 'w', encoding='utf-8') as jsonfile:
-        json.dump({userDetails.get('id'): fullList}, jsonfile)
+        json.dump({userDetails.get('id'): newList}, jsonfile)

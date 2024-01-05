@@ -5,17 +5,21 @@ if __name__ == "__main__":
     import requests
     import sys
 
-    count = 0
-    newList = []
-    res = requests.get(f"https://jsonplaceholder.typicode.com/users/{sys.argv[1]}")
-    r = requests.get(f'https://jsonplaceholder.typicode.com/users/{sys.argv[1]}/todos')
+    userid = sys.argv[1]
 
-    for task in r.json():
-        if task['completed'] == True:
-            newList.append(task)
-            count += 1
-    
-    print(f'Employee {res.json().get("name")} is done with tasks({count}/{len(r.json())}):')
+    res = requests.get(
+        f"https://jsonplaceholder.typicode.com/users/{userid}")
+    r = requests.get(
+        f'https://jsonplaceholder.typicode.com/users/{userid}/todos')
+
+    userDetails = res.json()
+    fullList = r.json()
+
+    newList = [task for task in fullList if task['completed']]
+
+    print(
+        f'Employee {userDetails.get("name")}\
+        is done with tasks({len(newList)}/{len(fullList)}): ')
 
     for item in newList:
         print(f'\t {item.get("title")}')

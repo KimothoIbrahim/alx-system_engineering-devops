@@ -15,10 +15,10 @@ if __name__ == "__main__":
     fullList = r.json()
     csv_file = f'{userid}.csv'
 
-    print(userDetails)
+    print(fullList[0])
     
     with open(csv_file, 'w', newline='') as csvW:
-        csv_writer = csv.writer(csvW)
+        csv_writer = csv.writer(csvW, quoting=csv.QUOTE_ALL)
 
         for task in fullList:
-            csv_writer.writerow([userDetails.get("id"), userDetails.get('username'), task.get("completed"), task.get("title")])
+            csv_writer.writerow([f"{userDetails.get('id')}", userDetails.get('username'), task.get('completed'), task.get('title')])

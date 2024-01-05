@@ -18,8 +18,8 @@ if __name__ == "__main__":
     newList = [task for task in fullList if task['completed']]
 
     print(
-        f'Employee {userDetails.get("name")}\
-        is done with tasks({len(newList)}/{len(fullList)}): ')
+        f'Employee {userDetails.get("name")} is \
+        done with tasks({len(newList)}/{len(fullList)}): ')
 
     for item in newList:
         print(f'\t {item.get("title")}')

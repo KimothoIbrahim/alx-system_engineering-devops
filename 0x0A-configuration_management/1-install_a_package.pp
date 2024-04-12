@@ -1,17 +1,10 @@
-# Define a Puppet class to manage the installation of Flask
-class flask_installation {
-
-  package { 'python3-pip':
-    ensure => installed,
-  }
-
-  exec { 'install_flask':
-    command => '/usr/bin/pip3 install Flask==2.1.0',
-    unless  => '/usr/bin/pip3 show Flask | grep -q "Version: 2.1.0"',
-    require => Package['python3-pip'],
-  }
-
+#install flask
+package { 'python3-pip':
+  ensure => installed
 }
 
-include flask_installation
-
+exec { 'install_flask':
+  command => '/usr/bin/pip3 install Flask==2.1.0',
+  unless  => '/usr/bin/pip3 show Flask | grep -q "Version: 2.1.0"',
+  require => Package['python3-pip']
+}

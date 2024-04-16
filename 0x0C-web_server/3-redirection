@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#redirect to right url
 
 apt-get update
 apt-get -y install nginx

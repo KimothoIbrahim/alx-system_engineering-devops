@@ -1,21 +1,9 @@
 #!/usr/bin/env bash
-#redirecting
 
-apt-get -y update
+apt-get update
 apt-get -y install nginx
 ufw allow "Nginx HTTP"
 echo "Hello World!" > /var/www/html/index.html
-nginx_conf="/etc/nginx/sites-available/default"
-
-if [ -f "$nginx_conf" ]; then
-	sed -i '/server {/a \
-	location /redirect_me { \
-		return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4; \
-	}' "$nginx_conf"
-		
-	nginx -t
-	service nginx restart
-	echo "success"
-else
-	echo "no Nginx default file"
-fi
+sed -i /try_files/i\ '\\t\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+nginx -t
+service nginx reload

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+#redirect to right url
+
+apt-get update
+apt-get -y install nginx
+ufw allow "Nginx HTTP"
+echo "Hello World!" > /var/www/html/index.html
+sed -i /^"\t\ttry_files"/i\ '\\t\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/404.html
+str="error_page 404 /404.html;\n\n\tlocation /404.html {\n\t\troot /usr/share/nginx/html/;\n\t\tinternal;\n\t}"
+sed -i /"server_name _;"/a\ "\\\n\t${str}" /etc/nginx/sites-available/default
+sed -i /^"\tserver_name"/i\ "\\\tadd_header X-Served-By $HOSTNAME;\n" /etc/nginx/sites-available/default
+nginx -t
+service nginx reload

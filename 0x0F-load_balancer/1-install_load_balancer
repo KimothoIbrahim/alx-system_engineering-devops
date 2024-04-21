@@ -13,8 +13,6 @@ backend servers
     server web-02 34.203.75.71:80"
 
 apt-get update
-apt-get install --no-install-recommends software-properties-common -y
-add-apt-repository ppa:vbernat/haproxy-2.0 -y
-apt-get install haproxy=2.0.\* -y
+apt-get install haproxy -y
 echo "$str" > init
 haproxy -f init

@@ -1,18 +1,22 @@
 #!/usr/bin/env bash
 #loader balancer
 
+apt-get update
+apt-get install haproxy -y
+
 str="frontend app
     bind *:80
     default_backend servers
     timeout client 60s
 
 backend servers
+    balance roundrobin
     timeout connect 10s
     timeout server 100s
-    server web-01 100.25.158.57:80
-    server web-02 34.203.75.71:80"
+    server web-01 100.25.158.57:80 check
+    server web-02 34.203.75.71:80 check"
 
-apt-get update
-apt-get install haproxy -y
-echo "$str" > init
-haproxy -f init
+echo "$str" > /etc/haproxy/haproxy.cfg
+chmod +x /etc/init.d/haproxy
+update-rc.d haproxy defaults
+service haproxy start

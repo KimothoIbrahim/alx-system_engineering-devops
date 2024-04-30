@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#HAPROXY ssl setup
+
+if [ -z "$1" ]
+then
+  echo "Usage: $0 domainName [subdomain]"
+  exit
+fi
+
+dig_domain()
+{
+    str="$1"
+    dig "$1" | awk -v rep="$str" '$1 ~ "^" rep { {split($1, domain, ".")}\
+print "The subdomain " domain[1] " is a " $4 " record and points to " $5}'
+}
+
+if [ "$2" ]
+then
+  dig_domain "$2"."$1"
+else
+  dig_domain www."$1"
+  dig_domain lb-01."$1"
+  dig_domain web-01."$1"
+  dig_domain web-02."$1"
+fi

@@ -1,0 +1,13 @@
+frontend app
+    bind *:80
+    bind :443 ssl crt /etc/haproxy/certs/firstcert.pem
+    http-request redirect scheme https unless { ssl-fc }
+    default_backend servers
+    timeout client 60s
+
+backend servers
+    balance roundrobin
+    timeout connect 10s
+    timeout server 100s
+    server web-01 100.25.158.57:80 check
+    server web-02 34.203.75.71:80 check

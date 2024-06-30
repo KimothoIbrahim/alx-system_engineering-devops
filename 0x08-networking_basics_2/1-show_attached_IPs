@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 # show ip addresses
 
-ifconfig | grep -oP '(?<=inet\s)\d+(\.\d+){3}' | cut -d' ' -f2
+ifconfig | awk '/inet / {print $2}'

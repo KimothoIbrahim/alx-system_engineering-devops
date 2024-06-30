@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# using netcat
+
+sudo nc -l 98

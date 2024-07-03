@@ -1,27 +1,35 @@
 #!/usr/bin/env bash
 #redirect to right url
 
-apt-get update
-apt-get install -y nginx
-ufw allow "Nginx HTTP"
+sudo rm /etc/nginx/sites-available/characterize.tech
+sudo rm /etc/nginx/sites-enabled/characterize.tech
+sudo apt-get update
+sudo apt-get install -y nginx
+sudo ufw allow "Nginx HTTP"
+sudo mkdir -p /var/www/characterize.tech/html/
+sudo chown -R $USER:$USER /var/www/characterize.tech/html
+sudo chmod -R 755 /var/www
+sudo echo "Hello World!" >> /var/www/characterize.tech/html/index.html
+sudo echo "Ceci n'est pas une page" >> /var/www/characterize.tech/html/404.html
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/characterize.tech
+sudo sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/characterize.tech
+sudo sed -i '/listen \[::\]:80 default_server;/c\\tlisten [::]:80;' /etc/nginx/sites-available/characterize.tech
+sudo sed -i 's/server_name _;/server_name characterize.tech www.characterize.tech;/g' /etc/nginx/sites-available/characterize.tech
+sudo sed -i 's#root /var/www/html;#root /var/www/characterize.tech/html;#g' /etc/nginx/sites-available/characterize.tech
+sudo sed -i '/^#/c\' /etc/nginx/sites-available/characterize.tech
+sudo sed -i '/^\t#/c\' /etc/nginx/sites-available/characterize.tech
 
-echo "Hello World!" >> /var/www/html/index.html
-echo "Ceci n'est pas une page" >> /var/www/html/404.html
-
-sudo sed -i '/server_name _;/a\
-  error_page 404 /404.html;\
+sudo sed -i '/server_name characterize.tech www.characterize.tech;/a\
 \
-  location /404.html {\
-    root /var/www/html/;\
-    internal;\
-  }\
+	error_page 404 /404.html;\
 \
-  location /redirect_me {\
-    return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\
-  }\
-' /etc/nginx/sites-available/default
-
-rm -rf /etc/nginx/sites-enabled/default
-ln -s /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
-nginx -t
-service nginx reload
+	location /404.html {\
+		internal;\
+	}\
+\
+        location /redirect_me {\
+                return 301 http://characterize.tech/;\
+        }' /etc/nginx/sites-available/characterize.tech
+sudo ln -s /etc/nginx/sites-available/characterize.tech /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo service nginx reload

@@ -26,7 +26,7 @@ def count_words(subreddit, word_list, params='', all_words=[]):
             for post in response.json()['data']['children']:
                 count = 0
                 all_words.extend(
-                    [word for word in post['data']['title'].split(" ")\
+                    [word for word in post['data']['title'].split(" ")
                      if word in word_list]
                 )
 

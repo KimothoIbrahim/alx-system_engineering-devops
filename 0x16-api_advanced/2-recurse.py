@@ -1,40 +1,32 @@
 #!/usr/bin/python3
 """
-Query hot post list from reddit
+Hot posts recursive
 """
 
-import requests
 
+def recurse(subreddit, params='', hot_list=[]):
+    """ get hot posts """
+    import json
+    import requests
 
-def recurse(subreddit, hot_list=[], after="", count=0):
-    """
-    Retrieve a list of hot post recuursively
-    """
-    url = "https://www.reddit.com/r/{}/hot/.json".format(subreddit)
+    try:
+        url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        response = requests.get(url, headers=headers, params=params, allow_redirects=False)
 
-    headers = {
-        "User-Agent": "linux:0x16.api.advanced:v1.0.0 (by /u/bdov_)"
-    }
+        if response.status_code == 200:
 
-    params = {
-        "after": after,
-        "count": count,
-        "limit": 100
-    }
+            for post in response.json()['data']['children']:
+                hot_list.append(post['data']['title'])
 
-    response = requests.get(url, headers=headers, params=params,
-                            allow_redirects=False)
+            params = {'after': response.json()['data']['after']}
 
-    if response.status_code == 404:
-        return None
-    results = response.json().get("data")
-    after = results.get("after")
-    count += results.get("dist")
+            if response.json()['data']['after']:
+                return recurse(subreddit, params, hot_list)
 
-    for c in results.get("children"):
-        hot_list.append(c.get("data").get("title"))
+            return hot_list
+        else:
+            return None
 
-    if after is not None:
-        return recurse(subreddit, hot_list, after, count)
-
-    return hot_list
+    except Exception as e:
+        print(e)

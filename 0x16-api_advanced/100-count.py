@@ -7,20 +7,27 @@ Advanced API calling
 
 def count_words(subreddit, word_list, params='', all_words=[]):
     """match given word phrases present in the api"""
+    from collections import Counter
     import json
     import requests
     import sys
-    from collections import Counter
 
     try:
         url = f"https://www.reddit.com/r/{subreddit}/hot.json?limit=10"
         headers = {'User-Agent': 'Mozilla/5.0'}
-        response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+        response = requests.get(
+            url,
+            headers=headers,
+            params=params,
+            allow_redirects=False
+        )
 
         if response.status_code == 200:
             for post in response.json()['data']['children']:
                 count = 0
-                all_words.extend([word for word in post['data']['title'].split(" ") if word in word_list ])
+                all_words.extend(
+                    [word for word in post['data']['title'].split(" ") if word in word_list ]
+                )
 
 
             params = {'after': response.json()['data']['after']}

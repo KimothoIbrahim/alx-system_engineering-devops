@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# correction of server error
+
+ln -s -f /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart

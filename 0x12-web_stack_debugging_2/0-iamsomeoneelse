@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# whoami
+
+if [[ "$1" ]]
+then
+	sudo -u "$1" whoami
+else
+	whoami
+fi

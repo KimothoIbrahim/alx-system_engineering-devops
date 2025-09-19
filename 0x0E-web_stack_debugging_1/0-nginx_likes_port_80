@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # correction of server error
 
-sudo ln -s -f /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-sudo service nginx restart
+ln -s -f /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
+service nginx restart

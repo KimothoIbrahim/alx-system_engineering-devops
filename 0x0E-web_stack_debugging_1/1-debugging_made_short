@@ -2,6 +2,3 @@
 # correction of server error
 
 ln -s -f /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default
-if [[ 3 == "$(service nginx status)" ]]; then
-service nginx restart
-fi
